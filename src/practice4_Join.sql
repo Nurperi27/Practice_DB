@@ -93,7 +93,7 @@ VALUES ('Central Library', 1, 1),
        ('Youth Library', 6, 11),
        ('City Library', 1, 2);
 
--- todo Library
+-- todo Tasks(Query) Library
 -- 1.Получить все таблицы из таблицы Library
 SELECT * FROM Library;
 
@@ -171,3 +171,60 @@ select * from Reader r join Library l on l.reader_id = r.id join Book b on b.id 
 -- 8.Найти читателей, у которых книги написаны женщинами
 select * from Reader r join Library l on l.reader_id = r.id join Book b on b.id = l.book_id
     join Author a on a.book_id = b.id where a.gender = 'female';
+
+-- todo Tasks(Query) Book
+-- 1.Получить все книги
+select * from Book;
+
+-- 2.Книги и библиотеки, где они находятся
+select l.name, b.book_name from Book b join Library l on l.book_id = b.id;
+
+-- 3.Получить книги и авторы
+select b.book_name, a.full_name from Book b join Author a on a.book_id = b.id;
+
+-- 4.Получить книги и читатели
+select * from Book b join Library l on l.book_id = b.id join Reader r on r.id = l.reader_id;
+
+-- 5.Книги, изданные после 2010 года
+select * from Book b where b.published_year > 2010;
+
+-- 6.Книги с определенным жанром
+select Book.book_name, genre from Book group by book_name, genre;
+
+-- 7.Книги, которые забронированы
+select * from Book where is_booked = true;
+
+-- 8.Количество книг по жанрам
+select genre, count(*) from Book group by genre;
+
+-- 9.Книга и библиотека, отсортированные по цене
+select * from Book b join Library l on l.book_id = b.id order by b.price desc;
+
+-- todo Tasks(Query) Author
+-- 1.Все авторы
+select * from Author;
+
+-- 2.Авторы и их книги
+select * from Author a join Book b on b.id = a.book_id;
+
+-- 3.Авторы и библиотеки
+select * from Author a join Book b on a.book_id = b.id join Library l on l.book_id = b.id;
+
+-- 4.Авторы и читатели
+select a.full_name, r.full_name from Author a join Book b on b.id = a.book_id join Library l on l.book_id = b.id
+    join Reader r on l.reader_id = r.id;
+
+-- 5.Авторы без книг
+select * from Author a where a.book_id IS NULL; -- оператор is null - означает = null / 0.
+                                                -- a.book_id = NULL - не корректно
+
+-- 6.Авторы, у которых книги не забронированы
+select * from Author a join Book b on a.book_id = b.id where b.is_booked = false;
+
+-- 7.Авторы, написавшие книги в жанре "Programming"
+select * from Author a join Book b on b.id = a.book_id where b.genre = 'Programming';
+
+-- 8.Отсортировать авторов по алфавиту
+select * from Author order by full_name; -- ascendind работает по дефолту
+
+-- 9.Книга и библиотека, отсортированные по цене (условие из Book)
