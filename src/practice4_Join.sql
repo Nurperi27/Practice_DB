@@ -162,6 +162,12 @@ select r.full_name, a.full_name from Reader r join Library l on l.reader_id = r.
     join Author a on b.id = a.book_id;
 
 -- 6.Вывести читателей, читающих определённый жанр
+select r.full_name, b.genre from Reader r join Library l on l.reader_id = r.id join Book b on b.id = l.book_id;
 
 -- 7.Получить всех читателей, читающих книги, изданные после 2010
+select * from Reader r join Library l on l.reader_id = r.id join Book b on b.id = l.book_id
+         where b.published_year > 2010;
+
 -- 8.Найти читателей, у которых книги написаны женщинами
+select * from Reader r join Library l on l.reader_id = r.id join Book b on b.id = l.book_id
+    join Author a on a.book_id = b.id where a.gender = 'female';
